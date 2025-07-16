@@ -127,16 +127,6 @@ Proyek ini menggunakan lisensi MIT.
 
 ---
 
-## 📫 Let’s Connect Like Hackers
-
-| Platform | Detail |
-|:--------|:-------|
-| GitHub  | [kongali1720](https://github.com/kongali1720) |
-| Email   | [kongali1720@gmail.com](mailto:kongali1720@gmail.com) |
-| Website | [Coming soon — stay curious...](https://kongali1720.github.io) |
-
----
-
 ## ❤️ INITIATING HUMANITY MODE... for Down Syndrome
 
 | Target        | Anak-anak Pejuang Down Syndrome |
