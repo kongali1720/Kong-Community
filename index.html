@@ -272,20 +272,54 @@
                 filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));
             }
 
-            /* Disable some animations on mobile for better performance */
+            /* Disable heavy animations on mobile for better performance */
             .particle,
             .lens-flare,
-            .hyperdrive-line {
-                display: none;
-            }
-
-            /* Reduce number of visual effects for performance */
+            .hyperdrive-line,
             .lightning,
             .explosion,
             .quantum-particle,
             .meteor,
-            .cosmic-fire {
-                animation-duration: 3s;
+            .cosmic-fire,
+            .dimensional-rift,
+            .vortex,
+            .plasma,
+            .solar-flare,
+            .shockwave,
+            .black-hole,
+            .wormhole,
+            .galactic-storm {
+                display: none !important;
+            }
+
+            /* Disable complex filters that cause white boxes */
+            .center-logo,
+            .service-logo,
+            .service-logo-bank {
+                filter: none !important;
+                mix-blend-mode: normal !important;
+                clip-path: none !important;
+            }
+
+            /* Simplify animations */
+            .community-container {
+                animation: none !important;
+                filter: none !important;
+            }
+
+            .aurora,
+            .nebula,
+            .holographic {
+                display: none !important;
+            }
+
+            /* Keep only basic effects */
+            .orbit {
+                animation-duration: 30s !important;
+            }
+
+            .star {
+                animation-duration: 5s !important;
             }
         }
 
@@ -321,6 +355,17 @@
             mix-blend-mode: screen;
             border-radius: 50%;
             clip-path: circle(50%);
+        }
+
+        /* Mobile safe logo */
+        @media (hover: none) and (pointer: coarse) {
+            .center-logo {
+                filter: none;
+                mix-blend-mode: normal;
+                clip-path: none;
+                border-radius: 50%;
+                background: rgba(0,0,0,0.1);
+            }
         }
 
         .orbit {
@@ -388,6 +433,18 @@
             transition: all 0.3s ease;
             background: transparent;
             mix-blend-mode: screen;
+        }
+
+        /* Mobile safe service logos */
+        @media (hover: none) and (pointer: coarse) {
+            .service-logo,
+            .service-logo-bank {
+                filter: none;
+                mix-blend-mode: normal;
+                clip-path: none;
+                background: rgba(0,0,0,0.1);
+                border-radius: 10px;
+            }
         }
 
         .service:hover .service-logo,
@@ -1600,7 +1657,7 @@
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const isMobile = window.innerWidth < 768;
-            const numStars = isMobile ? 75 : 150; // Fewer stars on mobile for performance
+            const numStars = isMobile ? 30 : 150; // Much fewer stars on mobile
             
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
@@ -1609,7 +1666,25 @@
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 3 + 's';
                 star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                
+                // Simplify stars for mobile
+                if (isMobile) {
+                    star.style.animation = 'simple-twinkle 3s ease-in-out infinite';
+                }
+                
                 starsContainer.appendChild(star);
+            }
+            
+            // Add simple mobile animation
+            if (isMobile) {
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes simple-twinkle {
+                        0%, 100% { opacity: 0.3; }
+                        50% { opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
             }
         }
 
@@ -1617,7 +1692,13 @@
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const isMobile = window.innerWidth < 768;
-            const numParticles = isMobile ? 15 : 30; // Fewer particles on mobile
+            
+            // Skip particles entirely on mobile to prevent white boxes
+            if (isMobile) {
+                return;
+            }
+            
+            const numParticles = 30;
             
             for (let i = 0; i < numParticles; i++) {
                 const particle = document.createElement('div');
