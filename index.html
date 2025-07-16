@@ -292,34 +292,82 @@
                 display: none !important;
             }
 
-            /* Disable complex filters that cause white boxes */
+            /* Disable ALL effects that cause white boxes and performance issues */
             .center-logo,
             .service-logo,
             .service-logo-bank {
                 filter: none !important;
                 mix-blend-mode: normal !important;
                 clip-path: none !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
             }
 
-            /* Simplify animations */
+            /* Disable ALL complex animations */
             .community-container {
                 animation: none !important;
                 filter: none !important;
+                transform: none !important;
             }
 
+            /* Hide ALL heavy effects */
             .aurora,
             .nebula,
-            .holographic {
+            .holographic,
+            .black-hole,
+            .wormhole,
+            .galactic-storm,
+            .energy-ring,
+            .gravity-wave,
+            .solar-flare,
+            .plasma,
+            .lens-flare,
+            .comet-trail,
+            .shooting-star,
+            .lightning,
+            .explosion,
+            .shockwave,
+            .quantum-particle,
+            .vortex,
+            .meteor,
+            .dimensional-rift,
+            .cosmic-fire,
+            .hyperdrive-line,
+            .sparkle-effect,
+            .floating-light {
                 display: none !important;
             }
 
-            /* Keep only basic effects */
+            /* Simplify orbits */
             .orbit {
-                animation-duration: 30s !important;
+                animation-duration: 60s !important;
+                filter: none !important;
+                box-shadow: none !important;
             }
 
+            /* Simplify stars */
             .star {
-                animation-duration: 5s !important;
+                animation: simple-mobile-twinkle 4s ease-in-out infinite !important;
+                filter: none !important;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Simple mobile star animation */
+            @keyframes simple-mobile-twinkle {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 0.8; }
+            }
+
+            /* Remove all text effects */
+            .community-title {
+                animation: none !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+                filter: none !important;
+            }
+
+            .service-name {
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
             }
         }
 
@@ -360,11 +408,14 @@
         /* Mobile safe logo */
         @media (hover: none) and (pointer: coarse) {
             .center-logo {
-                filter: none;
-                mix-blend-mode: normal;
-                clip-path: none;
+                filter: none !important;
+                mix-blend-mode: normal !important;
+                clip-path: none !important;
                 border-radius: 50%;
                 background: rgba(0,0,0,0.1);
+                box-shadow: none !important;
+                animation: none !important;
+                transform: none !important;
             }
         }
 
@@ -439,11 +490,21 @@
         @media (hover: none) and (pointer: coarse) {
             .service-logo,
             .service-logo-bank {
-                filter: none;
-                mix-blend-mode: normal;
-                clip-path: none;
+                filter: none !important;
+                mix-blend-mode: normal !important;
+                clip-path: none !important;
                 background: rgba(0,0,0,0.1);
                 border-radius: 10px;
+                box-shadow: none !important;
+                animation: none !important;
+                transform: none !important;
+            }
+
+            .service:active .service-logo,
+            .service:active .service-logo-bank {
+                transform: scale(1.1) !important;
+                filter: none !important;
+                box-shadow: none !important;
             }
         }
 
@@ -1534,63 +1595,51 @@
     </div>
 
     <script type="module">
-        // Haptic System (No Audio)
-        class HapticSystem {
+        // Silent System (No Audio, No Haptic)
+        class SilentSystem {
             constructor() {
-                this.isActive = false;
-                console.log('Haptic-only mode activated - no audio');
+                console.log('Silent mode - no audio, no haptic');
             }
 
             playHoverSound() {
-                // No sound - silent hover
+                // Completely silent
                 return;
             }
 
             playClickSound() {
-                if (!this.isActive) return;
-                
-                // Only haptic feedback for clicks
-                if (navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
+                // Completely silent - no haptic, no audio
+                return;
             }
 
             playPulseSound() {
-                // No pulse sounds
+                // Completely silent
                 return;
             }
 
             toggle() {
-                if (this.isActive) {
-                    this.stop();
-                } else {
-                    this.play();
-                }
+                // No toggle needed - always silent
+                return;
             }
 
             play() {
-                this.isActive = true;
-                const toggleBtn = document.getElementById('audioToggle');
-                if (toggleBtn) toggleBtn.textContent = '📳'; // Vibration icon
-                console.log('Haptic feedback enabled');
+                // Always silent
+                return;
             }
 
             stop() {
-                this.isActive = false;
-                const toggleBtn = document.getElementById('audioToggle');
-                if (toggleBtn) toggleBtn.textContent = '🔇'; // Muted icon
-                console.log('Haptic feedback disabled');
+                // Always silent
+                return;
             }
         }
 
-        // Initialize haptic system (no audio)
-        const communityHaptic = new HapticSystem();
+        // Initialize silent system (no audio, no haptic)
+        const communitySilent = new SilentSystem();
 
-        // Create animated stars with mobile optimization - MORE SPARKLES!
+        // Create animated stars with mobile optimization - REDUCED for performance
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const isMobile = window.innerWidth < 768;
-            const numStars = isMobile ? 100 : 300; // BANYAK BINTANG! Mobile dapat 100, desktop 300
+            const numStars = isMobile ? 30 : 100; // REDUCED! Mobile dapat 30, desktop 100
             
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
@@ -1605,12 +1654,16 @@
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
                 
-                // Variasi warna bintang
-                const colors = ['white', '#ffff99', '#99ccff', '#ff99cc', '#99ffcc', '#ffcc99'];
-                star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Intensitas twinkle random
-                star.style.boxShadow = `0 0 ${Math.random() * 10 + 5}px currentColor`;
+                // Simple white only for mobile
+                if (isMobile) {
+                    star.style.backgroundColor = 'white';
+                    star.style.boxShadow = 'none'; // No glow for mobile
+                } else {
+                    // Variasi warna untuk desktop only
+                    const colors = ['white', '#ffff99', '#99ccff'];
+                    star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    star.style.boxShadow = `0 0 ${Math.random() * 5 + 2}px currentColor`; // Reduced glow
+                }
                 
                 starsContainer.appendChild(star);
             }
@@ -1642,8 +1695,16 @@
             }
         }
 
-        // Tambah fungsi khusus sparkle effects
+        // Sparkle effects - DISABLED for mobile performance
         function createSparkleEffects() {
+            const isMobile = window.innerWidth < 768;
+            
+            // Skip sparkles on mobile completely
+            if (isMobile) {
+                return;
+            }
+            
+            // Reduced sparkles for desktop only
             const sparkleContainer = document.createElement('div');
             sparkleContainer.id = 'sparkles';
             sparkleContainer.style.cssText = `
@@ -1655,69 +1716,31 @@
             `;
             document.querySelector('.community-container').appendChild(sparkleContainer);
 
-            // Buat sparkles yang berkelap-kelip
-            for (let i = 0; i < 50; i++) {
+            // Only 10 sparkles for desktop (instead of 50)
+            for (let i = 0; i < 10; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle-effect';
                 sparkle.style.cssText = `
                     position: absolute;
                     left: ${Math.random() * 100}%;
                     top: ${Math.random() * 100}%;
-                    width: ${Math.random() * 4 + 2}px;
-                    height: ${Math.random() * 4 + 2}px;
+                    width: 2px;
+                    height: 2px;
                     background: white;
                     border-radius: 50%;
-                    animation: sparkle-twinkle ${Math.random() * 3 + 1}s ease-in-out infinite;
-                    animation-delay: ${Math.random() * 4}s;
-                    box-shadow: 0 0 ${Math.random() * 15 + 10}px currentColor;
+                    animation: simple-sparkle ${Math.random() * 2 + 2}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 3}s;
+                    box-shadow: none;
                 `;
                 sparkleContainer.appendChild(sparkle);
             }
 
-            // CSS untuk sparkle animation
+            // Simple sparkle animation
             const sparkleStyle = document.createElement('style');
             sparkleStyle.textContent = `
-                @keyframes sparkle-twinkle {
-                    0%, 100% { 
-                        opacity: 0;
-                        transform: scale(0) rotate(0deg);
-                    }
-                    10% {
-                        opacity: 0.3;
-                        transform: scale(0.5) rotate(45deg);
-                    }
-                    20% {
-                        opacity: 1;
-                        transform: scale(1.5) rotate(90deg);
-                    }
-                    30% {
-                        opacity: 0.7;
-                        transform: scale(1.2) rotate(135deg);
-                    }
-                    40% {
-                        opacity: 1;
-                        transform: scale(2) rotate(180deg);
-                    }
-                    50% {
-                        opacity: 0.5;
-                        transform: scale(1) rotate(225deg);
-                    }
-                    60% {
-                        opacity: 1;
-                        transform: scale(1.8) rotate(270deg);
-                    }
-                    70% {
-                        opacity: 0.8;
-                        transform: scale(1.3) rotate(315deg);
-                    }
-                    80% {
-                        opacity: 0.4;
-                        transform: scale(0.8) rotate(360deg);
-                    }
-                    90% {
-                        opacity: 0.2;
-                        transform: scale(0.3) rotate(405deg);
-                    }
+                @keyframes simple-sparkle {
+                    0%, 100% { opacity: 0; }
+                    50% { opacity: 1; }
                 }
             `;
             document.head.appendChild(sparkleStyle);
@@ -1777,14 +1800,20 @@
             }
         }
 
-        // Create shooting stars - LEBIH BANYAK!
+        // Create shooting stars - REDUCED for mobile performance
         function createShootingStars() {
             const shootingContainer = document.getElementById('shooting-stars');
+            const isMobile = window.innerWidth < 768;
             
-            // Shooting stars lebih sering muncul!
+            // Skip shooting stars on mobile completely
+            if (isMobile) {
+                return;
+            }
+            
+            // Desktop only - reduced frequency
             setInterval(() => {
-                // Buat 2-3 shooting stars sekaligus
-                const numStars = Math.floor(Math.random() * 3) + 1;
+                // Only 1 shooting star at a time
+                const numStars = 1;
                 
                 for (let i = 0; i < numStars; i++) {
                     const star = document.createElement('div');
@@ -1813,10 +1842,9 @@
                     
                     star.style.animationDelay = Math.random() * 1 + 's';
                     
-                    // Variasi warna shooting star
-                    const colors = ['white', '#ffff99', '#99ccff', '#ff99cc', '#99ffff'];
-                    star.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]} 0%, transparent 100%)`;
-                    star.style.boxShadow = `0 0 ${Math.random() * 20 + 15}px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                    // Simple white shooting star
+                    star.style.background = 'white';
+                    star.style.boxShadow = '0 0 5px white';
                     
                     shootingContainer.appendChild(star);
                     
@@ -1824,66 +1852,13 @@
                         star.remove();
                     }, 3000);
                 }
-            }, 2000); // Setiap 2 detik bukan 4 detik
+            }, 5000); // Every 5 seconds - much less frequent
         }
 
-        // Tambah fungsi floating light orbs
+        // Floating lights - DISABLED completely to prevent white boxes
         function createFloatingLights() {
-            const lightsContainer = document.createElement('div');
-            lightsContainer.id = 'floating-lights';
-            lightsContainer.style.cssText = `
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 1;
-            `;
-            document.querySelector('.community-container').appendChild(lightsContainer);
-
-            for (let i = 0; i < 20; i++) {
-                const light = document.createElement('div');
-                light.className = 'floating-light';
-                light.style.cssText = `
-                    position: absolute;
-                    left: ${Math.random() * 100}%;
-                    top: ${Math.random() * 100}%;
-                    width: ${Math.random() * 8 + 4}px;
-                    height: ${Math.random() * 8 + 4}px;
-                    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-                    border-radius: 50%;
-                    animation: float-glow ${Math.random() * 4 + 3}s ease-in-out infinite;
-                    animation-delay: ${Math.random() * 3}s;
-                    filter: blur(1px);
-                `;
-                lightsContainer.appendChild(light);
-            }
-
-            const lightStyle = document.createElement('style');
-            lightStyle.textContent = `
-                @keyframes float-glow {
-                    0%, 100% {
-                        opacity: 0.3;
-                        transform: translateY(0px) scale(0.8);
-                        box-shadow: 0 0 10px rgba(255,255,255,0.5);
-                    }
-                    25% {
-                        opacity: 0.8;
-                        transform: translateY(-20px) scale(1.2);
-                        box-shadow: 0 0 20px rgba(255,255,255,0.8);
-                    }
-                    50% {
-                        opacity: 1;
-                        transform: translateY(-10px) scale(1.5);
-                        box-shadow: 0 0 30px rgba(255,255,255,1);
-                    }
-                    75% {
-                        opacity: 0.6;
-                        transform: translateY(-30px) scale(1.1);
-                        box-shadow: 0 0 25px rgba(255,255,255,0.7);
-                    }
-                }
-            `;
-            document.head.appendChild(lightStyle);
+            // Disabled to prevent white box issues on mobile
+            return;
         }
 
         // Create gravity waves
@@ -2023,39 +1998,25 @@
                     const logo = this.querySelector('.service-logo, .service-logo-bank');
                     const frequency = 660 + (index * 150);
                     
-                    // Only haptic feedback
-                    communityHaptic.playClickSound();
+                    // Completely silent - no feedback
+                    // communitySilent.playClickSound(); // Disabled
 
-                    // Safe visual effects that don't cause white boxes
+                    // Very simple click effect - no filters, no shadows
                     if (logo) {
-                        // Mobile-safe effects
-                        if (window.innerWidth < 768) {
-                            logo.style.transform = 'scale(1.2)';
-                            logo.style.transition = 'transform 0.2s ease';
-                        } else {
-                            logo.style.transform = 'scale(1.4)';
-                            logo.style.filter = 'drop-shadow(0 0 30px rgba(255,255,255,1))';
-                        }
+                        // Simple scale only
+                        logo.style.transform = 'scale(1.1)';
+                        logo.style.transition = 'transform 0.2s ease';
                         
                         setTimeout(() => {
                             logo.style.transform = '';
-                            if (window.innerWidth >= 768) {
-                                logo.style.filter = '';
-                            }
                         }, 200);
                     } else {
-                        if (window.innerWidth < 768) {
-                            this.style.transform = 'scale(1.1)';
-                            this.style.background = 'rgba(255,255,255,0.1)';
-                        } else {
-                            this.style.transform = 'scale(1.2)';
-                            this.style.boxShadow = '0 0 20px rgba(255,255,255,0.8)';
-                        }
+                        // Simple scale only
+                        this.style.transform = 'scale(1.05)';
+                        this.style.transition = 'transform 0.2s ease';
                         
                         setTimeout(() => {
                             this.style.transform = '';
-                            this.style.background = '';
-                            this.style.boxShadow = '';
                         }, 200);
                     }
                 }
@@ -2107,13 +2068,11 @@
             }, 100);
         }
 
-        // Haptic controls - wait for DOM
+        // Remove control button - not needed for silent mode
         setTimeout(() => {
-            const hapticToggle = document.getElementById('audioToggle');
-            if (hapticToggle) {
-                hapticToggle.addEventListener('click', function() {
-                    communityHaptic.toggle();
-                });
+            const controlButton = document.getElementById('audioToggle');
+            if (controlButton) {
+                controlButton.style.display = 'none'; // Hide the button
             }
         }, 100);
 
