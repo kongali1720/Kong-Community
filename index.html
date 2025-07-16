@@ -532,12 +532,44 @@
 
         @keyframes twinkle {
             0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
+                opacity: 0.2;
+                transform: scale(0.5) rotate(0deg);
+                filter: brightness(0.8);
+            }
+            12.5% {
+                opacity: 0.6;
+                transform: scale(1.1) rotate(45deg);
+                filter: brightness(1.2);
+            }
+            25% {
+                opacity: 1;
+                transform: scale(1.8) rotate(90deg);
+                filter: brightness(1.5);
+            }
+            37.5% {
+                opacity: 0.7;
+                transform: scale(1.3) rotate(135deg);
+                filter: brightness(1.3);
             }
             50% {
                 opacity: 1;
-                transform: scale(1.2);
+                transform: scale(2) rotate(180deg);
+                filter: brightness(2);
+            }
+            62.5% {
+                opacity: 0.8;
+                transform: scale(1.5) rotate(225deg);
+                filter: brightness(1.4);
+            }
+            75% {
+                opacity: 0.9;
+                transform: scale(1.7) rotate(270deg);
+                filter: brightness(1.6);
+            }
+            87.5% {
+                opacity: 0.5;
+                transform: scale(1.2) rotate(315deg);
+                filter: brightness(1.1);
             }
         }
 
@@ -702,7 +734,7 @@
             }
         }
 
-        /* Audio Controls */
+        /* Haptic Controls */
         .audio-controls {
             position: absolute;
             top: 20px;
@@ -1367,9 +1399,9 @@
 <body>
     <div class="community-title">KONG COMMUNITY</div>
     
-    <!-- Audio Controls -->
+    <!-- Haptic Controls -->
     <div class="audio-controls">
-        <button class="audio-toggle" id="audioToggle" title="Toggle Sound">🔊</button>
+        <button class="audio-toggle" id="audioToggle" title="Toggle Haptic Feedback">🔇</button>
     </div>
     
     <div class="community-container">
@@ -1502,170 +1534,34 @@
     </div>
 
     <script type="module">
-        // Audio System
-        class GalaxyAudio {
+        // Haptic System (No Audio)
+        class HapticSystem {
             constructor() {
-                this.audioContext = null;
-                this.isPlaying = false;
-                this.oscillators = {};
-                this.gainNodes = {};
-                this.isMobile = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                this.init();
+                this.isActive = false;
+                console.log('Haptic-only mode activated - no audio');
             }
 
-            async init() {
-                try {
-                    // Skip complex audio on mobile to prevent visual glitches
-                    if (this.isMobile) {
-                        this.initMobileAudio();
-                    } else {
-                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                        this.createAmbientSound();
-                    }
-                } catch (error) {
-                    console.log('Audio not supported:', error);
-                    this.initFallbackAudio();
-                }
+            playHoverSound() {
+                // No sound - silent hover
+                return;
             }
 
-            initMobileAudio() {
-                // Use simple HTML5 audio for mobile to prevent conflicts
-                this.mobileAudio = true;
-                console.log('Mobile audio mode activated');
-            }
-
-            initFallbackAudio() {
-                // Fallback for unsupported devices
-                this.fallbackAudio = true;
-                console.log('Fallback audio mode activated');
-            }
-
-            createAmbientSound() {
-                if (!this.audioContext) return;
-
-                // Create ambient space sound
-                const oscillator1 = this.audioContext.createOscillator();
-                const oscillator2 = this.audioContext.createOscillator();
-                const gainNode1 = this.audioContext.createGain();
-                const gainNode2 = this.audioContext.createGain();
-
-                oscillator1.type = 'sine';
-                oscillator1.frequency.setValueAtTime(80, this.audioContext.currentTime);
-                oscillator2.type = 'triangle';
-                oscillator2.frequency.setValueAtTime(120, this.audioContext.currentTime);
-
-                gainNode1.gain.setValueAtTime(0.05, this.audioContext.currentTime);
-                gainNode2.gain.setValueAtTime(0.03, this.audioContext.currentTime);
-
-                oscillator1.connect(gainNode1);
-                oscillator2.connect(gainNode2);
-                gainNode1.connect(this.audioContext.destination);
-                gainNode2.connect(this.audioContext.destination);
-
-                this.oscillators.ambient1 = oscillator1;
-                this.oscillators.ambient2 = oscillator2;
-                this.gainNodes.ambient1 = gainNode1;
-                this.gainNodes.ambient2 = gainNode2;
-            }
-
-            playHoverSound(frequency = 440) {
-                if (!this.isPlaying) return;
-
-                // Skip hover sounds on mobile to prevent glitches
-                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
-                    return;
-                }
-
-                if (!this.audioContext) return;
-
-                try {
-                    const oscillator = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0.05, this.audioContext.currentTime + 0.05); // Reduced volume
-                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.2); // Shorter duration
-
-                    oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
-
-                    oscillator.start();
-                    oscillator.stop(this.audioContext.currentTime + 0.2);
-                } catch (error) {
-                    console.log('Audio playback error:', error);
-                }
-            }
-
-            playClickSound(frequency = 660) {
-                if (!this.isPlaying) return;
-
-                // Use haptic feedback instead of sound on mobile
-                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
-                    // Haptic feedback for mobile
-                    if (navigator.vibrate) {
-                        navigator.vibrate(30);
-                    }
-                    return;
-                }
-
-                if (!this.audioContext) return;
-
-                try {
-                    const oscillator = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-
-                    oscillator.type = 'sine'; // Changed from square to sine for gentler sound
-                    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0.08, this.audioContext.currentTime + 0.01); // Reduced volume
-                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.15); // Shorter duration
-
-                    oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
-
-                    oscillator.start();
-                    oscillator.stop(this.audioContext.currentTime + 0.15);
-                } catch (error) {
-                    console.log('Audio playback error:', error);
+            playClickSound() {
+                if (!this.isActive) return;
+                
+                // Only haptic feedback for clicks
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
                 }
             }
 
             playPulseSound() {
-                if (!this.isPlaying) return;
-
-                // Skip pulse sounds on mobile entirely
-                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
-                    return;
-                }
-
-                if (!this.audioContext) return;
-
-                try {
-                    const oscillator = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
-                    oscillator.frequency.linearRampToValueAtTime(300, this.audioContext.currentTime + 0.3); // Shorter sweep
-                    
-                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0.04, this.audioContext.currentTime + 0.1); // Much quieter
-                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.3); // Shorter duration
-
-                    oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
-
-                    oscillator.start();
-                    oscillator.stop(this.audioContext.currentTime + 0.3);
-                } catch (error) {
-                    console.log('Audio playback error:', error);
-                }
+                // No pulse sounds
+                return;
             }
 
             toggle() {
-                if (this.isPlaying) {
+                if (this.isActive) {
                     this.stop();
                 } else {
                     this.play();
@@ -1673,111 +1569,158 @@
             }
 
             play() {
-                this.isPlaying = true;
+                this.isActive = true;
                 const toggleBtn = document.getElementById('audioToggle');
-                if (toggleBtn) toggleBtn.textContent = '🔊';
-
-                // Different behavior for mobile vs desktop
-                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
-                    // Mobile: Just enable haptic feedback, no audio
-                    console.log('Audio enabled - haptic feedback mode');
-                    return;
-                }
-
-                if (!this.audioContext) return;
-
-                try {
-                    if (this.audioContext.state === 'suspended') {
-                        this.audioContext.resume();
-                    }
-
-                    // Start ambient sounds only on desktop
-                    Object.values(this.oscillators).forEach(osc => {
-                        if (osc.start && typeof osc.start === 'function') {
-                            try {
-                                osc.start();
-                            } catch (e) {
-                                console.log('Oscillator start error:', e);
-                            }
-                        }
-                    });
-                } catch (error) {
-                    console.log('Audio play error:', error);
-                }
+                if (toggleBtn) toggleBtn.textContent = '📳'; // Vibration icon
+                console.log('Haptic feedback enabled');
             }
 
             stop() {
-                this.isPlaying = false;
+                this.isActive = false;
                 const toggleBtn = document.getElementById('audioToggle');
-                if (toggleBtn) toggleBtn.textContent = '🔇';
-
-                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
-                    console.log('Audio disabled - haptic feedback mode off');
-                    return;
-                }
-
-                if (!this.audioContext) return;
-
-                try {
-                    // Stop ambient sounds
-                    Object.values(this.oscillators).forEach(osc => {
-                        if (osc.stop && typeof osc.stop === 'function') {
-                            try {
-                                osc.stop();
-                            } catch (e) {
-                                console.log('Oscillator stop error:', e);
-                            }
-                        }
-                    });
-
-                    // Recreate oscillators for next play (only on desktop)
-                    setTimeout(() => {
-                        if (!this.isMobile && !this.mobileAudio && !this.fallbackAudio) {
-                            this.createAmbientSound();
-                        }
-                    }, 100);
-                } catch (error) {
-                    console.log('Audio stop error:', error);
-                }
+                if (toggleBtn) toggleBtn.textContent = '🔇'; // Muted icon
+                console.log('Haptic feedback disabled');
             }
         }
 
-        // Initialize audio system
-        const communityAudio = new GalaxyAudio();
+        // Initialize haptic system (no audio)
+        const communityHaptic = new HapticSystem();
 
-        // Create animated stars with mobile optimization
+        // Create animated stars with mobile optimization - MORE SPARKLES!
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const isMobile = window.innerWidth < 768;
-            const numStars = isMobile ? 30 : 150; // Much fewer stars on mobile
+            const numStars = isMobile ? 100 : 300; // BANYAK BINTANG! Mobile dapat 100, desktop 300
             
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's'; // Lebih cepat kerlap-kerlip
                 
-                // Simplify stars for mobile
-                if (isMobile) {
-                    star.style.animation = 'simple-twinkle 3s ease-in-out infinite';
-                }
+                // Variasi ukuran bintang
+                const size = Math.random() * 3 + 1; // 1-4px
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Variasi warna bintang
+                const colors = ['white', '#ffff99', '#99ccff', '#ff99cc', '#99ffcc', '#ffcc99'];
+                star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Intensitas twinkle random
+                star.style.boxShadow = `0 0 ${Math.random() * 10 + 5}px currentColor`;
                 
                 starsContainer.appendChild(star);
             }
             
-            // Add simple mobile animation
+            // Enhanced mobile animation
             if (isMobile) {
                 const style = document.createElement('style');
                 style.textContent = `
                     @keyframes simple-twinkle {
-                        0%, 100% { opacity: 0.3; }
-                        50% { opacity: 1; }
+                        0%, 100% { 
+                            opacity: 0.2; 
+                            transform: scale(0.8);
+                        }
+                        25% { 
+                            opacity: 0.8; 
+                            transform: scale(1.2);
+                        }
+                        50% { 
+                            opacity: 1; 
+                            transform: scale(1.5);
+                        }
+                        75% { 
+                            opacity: 0.6; 
+                            transform: scale(1.1);
+                        }
                     }
                 `;
                 document.head.appendChild(style);
             }
+        }
+
+        // Tambah fungsi khusus sparkle effects
+        function createSparkleEffects() {
+            const sparkleContainer = document.createElement('div');
+            sparkleContainer.id = 'sparkles';
+            sparkleContainer.style.cssText = `
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            document.querySelector('.community-container').appendChild(sparkleContainer);
+
+            // Buat sparkles yang berkelap-kelip
+            for (let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle-effect';
+                sparkle.style.cssText = `
+                    position: absolute;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    width: ${Math.random() * 4 + 2}px;
+                    height: ${Math.random() * 4 + 2}px;
+                    background: white;
+                    border-radius: 50%;
+                    animation: sparkle-twinkle ${Math.random() * 3 + 1}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 4}s;
+                    box-shadow: 0 0 ${Math.random() * 15 + 10}px currentColor;
+                `;
+                sparkleContainer.appendChild(sparkle);
+            }
+
+            // CSS untuk sparkle animation
+            const sparkleStyle = document.createElement('style');
+            sparkleStyle.textContent = `
+                @keyframes sparkle-twinkle {
+                    0%, 100% { 
+                        opacity: 0;
+                        transform: scale(0) rotate(0deg);
+                    }
+                    10% {
+                        opacity: 0.3;
+                        transform: scale(0.5) rotate(45deg);
+                    }
+                    20% {
+                        opacity: 1;
+                        transform: scale(1.5) rotate(90deg);
+                    }
+                    30% {
+                        opacity: 0.7;
+                        transform: scale(1.2) rotate(135deg);
+                    }
+                    40% {
+                        opacity: 1;
+                        transform: scale(2) rotate(180deg);
+                    }
+                    50% {
+                        opacity: 0.5;
+                        transform: scale(1) rotate(225deg);
+                    }
+                    60% {
+                        opacity: 1;
+                        transform: scale(1.8) rotate(270deg);
+                    }
+                    70% {
+                        opacity: 0.8;
+                        transform: scale(1.3) rotate(315deg);
+                    }
+                    80% {
+                        opacity: 0.4;
+                        transform: scale(0.8) rotate(360deg);
+                    }
+                    90% {
+                        opacity: 0.2;
+                        transform: scale(0.3) rotate(405deg);
+                    }
+                }
+            `;
+            document.head.appendChild(sparkleStyle);
         }
 
         // Create floating particles with mobile optimization
@@ -1834,22 +1777,113 @@
             }
         }
 
-        // Create shooting stars
+        // Create shooting stars - LEBIH BANYAK!
         function createShootingStars() {
             const shootingContainer = document.getElementById('shooting-stars');
             
+            // Shooting stars lebih sering muncul!
             setInterval(() => {
-                const star = document.createElement('div');
-                star.className = 'shooting-star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 2 + 's';
-                shootingContainer.appendChild(star);
+                // Buat 2-3 shooting stars sekaligus
+                const numStars = Math.floor(Math.random() * 3) + 1;
                 
-                setTimeout(() => {
-                    star.remove();
-                }, 3000);
-            }, 4000);
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'shooting-star';
+                    
+                    // Posisi random dari berbagai arah
+                    const startSide = Math.floor(Math.random() * 4);
+                    switch(startSide) {
+                        case 0: // dari atas
+                            star.style.left = Math.random() * 100 + '%';
+                            star.style.top = '-10px';
+                            break;
+                        case 1: // dari kanan
+                            star.style.left = '110%';
+                            star.style.top = Math.random() * 100 + '%';
+                            break;
+                        case 2: // dari bawah
+                            star.style.left = Math.random() * 100 + '%';
+                            star.style.top = '110%';
+                            break;
+                        case 3: // dari kiri
+                            star.style.left = '-10px';
+                            star.style.top = Math.random() * 100 + '%';
+                            break;
+                    }
+                    
+                    star.style.animationDelay = Math.random() * 1 + 's';
+                    
+                    // Variasi warna shooting star
+                    const colors = ['white', '#ffff99', '#99ccff', '#ff99cc', '#99ffff'];
+                    star.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]} 0%, transparent 100%)`;
+                    star.style.boxShadow = `0 0 ${Math.random() * 20 + 15}px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                    
+                    shootingContainer.appendChild(star);
+                    
+                    setTimeout(() => {
+                        star.remove();
+                    }, 3000);
+                }
+            }, 2000); // Setiap 2 detik bukan 4 detik
+        }
+
+        // Tambah fungsi floating light orbs
+        function createFloatingLights() {
+            const lightsContainer = document.createElement('div');
+            lightsContainer.id = 'floating-lights';
+            lightsContainer.style.cssText = `
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            document.querySelector('.community-container').appendChild(lightsContainer);
+
+            for (let i = 0; i < 20; i++) {
+                const light = document.createElement('div');
+                light.className = 'floating-light';
+                light.style.cssText = `
+                    position: absolute;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+                    border-radius: 50%;
+                    animation: float-glow ${Math.random() * 4 + 3}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 3}s;
+                    filter: blur(1px);
+                `;
+                lightsContainer.appendChild(light);
+            }
+
+            const lightStyle = document.createElement('style');
+            lightStyle.textContent = `
+                @keyframes float-glow {
+                    0%, 100% {
+                        opacity: 0.3;
+                        transform: translateY(0px) scale(0.8);
+                        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+                    }
+                    25% {
+                        opacity: 0.8;
+                        transform: translateY(-20px) scale(1.2);
+                        box-shadow: 0 0 20px rgba(255,255,255,0.8);
+                    }
+                    50% {
+                        opacity: 1;
+                        transform: translateY(-10px) scale(1.5);
+                        box-shadow: 0 0 30px rgba(255,255,255,1);
+                    }
+                    75% {
+                        opacity: 0.6;
+                        transform: translateY(-30px) scale(1.1);
+                        box-shadow: 0 0 25px rgba(255,255,255,0.7);
+                    }
+                }
+            `;
+            document.head.appendChild(lightStyle);
         }
 
         // Create gravity waves
@@ -1982,21 +2016,15 @@
         function addServiceEffects() {
             const services = document.querySelectorAll('.service');
             services.forEach((service, index) => {
-                // Add hover sound effects (desktop only)
-                if (window.matchMedia('(hover: hover)').matches) {
-                    service.addEventListener('mouseenter', function() {
-                        const frequency = 440 + (index * 100);
-                        communityAudio.playHoverSound(frequency);
-                    });
-                }
+                // No hover sound effects - silent hover
 
                 // Add click/tap effects
                 function handleServiceInteraction() {
                     const logo = this.querySelector('.service-logo, .service-logo-bank');
                     const frequency = 660 + (index * 150);
                     
-                    // Play sound/haptic based on device
-                    communityAudio.playClickSound(frequency);
+                    // Only haptic feedback
+                    communityHaptic.playClickSound();
 
                     // Safe visual effects that don't cause white boxes
                     if (logo) {
@@ -2043,6 +2071,8 @@
         // Initialize all effects after DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            createSparkleEffects(); // TAMBAHAN SPARKLE!
+            createFloatingLights(); // TAMBAHAN FLOATING LIGHTS!
             createParticles();
             createEnergyRings();
             createCometTrails();
@@ -2062,6 +2092,8 @@
             // DOM has already loaded
             setTimeout(() => {
                 createStars();
+                createSparkleEffects(); // TAMBAHAN SPARKLE!
+                createFloatingLights(); // TAMBAHAN FLOATING LIGHTS!
                 createParticles();
                 createEnergyRings();
                 createCometTrails();
@@ -2075,23 +2107,17 @@
             }, 100);
         }
 
-        // Audio controls - wait for DOM
+        // Haptic controls - wait for DOM
         setTimeout(() => {
-            const audioToggle = document.getElementById('audioToggle');
-            if (audioToggle) {
-                audioToggle.addEventListener('click', function() {
-                    communityAudio.toggle();
+            const hapticToggle = document.getElementById('audioToggle');
+            if (hapticToggle) {
+                hapticToggle.addEventListener('click', function() {
+                    communityHaptic.toggle();
                 });
             }
         }, 100);
 
-        // Add pulse sound effect every 8 seconds (less frequent, desktop only)
-        setInterval(() => {
-            // Only play pulse sounds on desktop
-            if (window.innerWidth >= 768 && !(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-                communityAudio.playPulseSound();
-            }
-        }, 8000);
+        // No pulse sounds - completely silent
 
         // Konami Code Easter Egg
         let konamiCode = [];
