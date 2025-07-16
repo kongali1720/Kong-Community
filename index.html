@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kong Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: url('https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/universe.jpg') center/cover no-repeat;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .community-container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+            transform-style: preserve-3d;
+        }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            body {
+                height: 100vh;
+                height: 100dvh; /* Dynamic viewport height for mobile */
+            }
+
+            .community-container {
+                width: 90vw;
+                height: 90vw;
+                max-width: 500px;
+                max-height: 500px;
+                min-width: 300px;
+                min-height: 300px;
+            }
+
+            .community-title {
+                font-size: 1.8rem;
+                top: 20px;
+            }
+
+            .center-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .community-center {
+                width: 80px;
+                height: 80px;
+            }
+
+            .orbit-1 {
+                width: 200px;
+                height: 200px;
+            }
+
+            .orbit-2 {
+                width: 280px;
+                height: 280px;
+            }
+
+            .orbit-3 {
+                width: 360px;
+                height: 360px;
+            }
+
+            .service {
+                width: 50px;
+                height: 50px;
+            }
+
+            .service-logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .service-logo-bank {
+                width: 60px;
+                height: 60px;
+            }
+
+            .service-bank {
+                width: 60px;
+                height: 60px;
+            }
+
+            .service-wallet {
+                top: -25px;
+                left: calc(50% - 25px);
+            }
+
+            .service-tech {
+                top: calc(50% - 25px);
+                right: -25px;
+            }
+
+            .service-bank {
+                bottom: -30px;
+                right: calc(25% - 30px);
+            }
+
+            .service-pay {
+                bottom: -25px;
+                left: calc(25% - 25px);
+            }
+
+            .service-chat {
+                top: calc(25% - 25px);
+                left: -25px;
+            }
+
+            .service-ai {
+                bottom: calc(25% - 25px);
+                left: -25px;
+            }
+
+            .service-swift {
+                top: calc(25% - 25px);
+                right: calc(15% - 25px);
+            }
+
+            .service-net {
+                top: calc(25% - 25px);
+                left: calc(15% - 25px);
+            }
+
+            .service-name {
+                bottom: -20px;
+                font-size: 6px;
+            }
+
+            .audio-controls {
+                top: 10px;
+                right: 10px;
+            }
+
+            .audio-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .community-title {
+                font-size: 1.5rem;
+                top: 15px;
+            }
+
+            .community-container {
+                width: 95vw;
+                height: 95vw;
+                max-width: 400px;
+                max-height: 400px;
+            }
+
+            .center-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .community-center {
+                width: 60px;
+                height: 60px;
+            }
+
+            .orbit-1 {
+                width: 160px;
+                height: 160px;
+            }
+
+            .orbit-2 {
+                width: 220px;
+                height: 220px;
+            }
+
+            .orbit-3 {
+                width: 280px;
+                height: 280px;
+            }
+
+            .service {
+                width: 40px;
+                height: 40px;
+            }
+
+            .service-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .service-logo-bank {
+                width: 50px;
+                height: 50px;
+            }
+
+            .service-bank {
+                width: 50px;
+                height: 50px;
+            }
+
+            .service-wallet {
+                top: -20px;
+                left: calc(50% - 20px);
+            }
+
+            .service-tech {
+                top: calc(50% - 20px);
+                right: -20px;
+            }
+
+            .service-bank {
+                bottom: -25px;
+                right: calc(25% - 25px);
+            }
+
+            .service-pay {
+                bottom: -20px;
+                left: calc(25% - 20px);
+            }
+
+            .service-chat {
+                top: calc(25% - 20px);
+                left: -20px;
+            }
+
+            .service-ai {
+                bottom: calc(25% - 20px);
+                left: -20px;
+            }
+
+            .service-swift {
+                top: calc(25% - 20px);
+                right: calc(15% - 20px);
+            }
+
+            .service-net {
+                top: calc(25% - 20px);
+                left: calc(15% - 20px);
+            }
+
+            .service-name {
+                bottom: -18px;
+                font-size: 5px;
+            }
+        }
+
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .service:active {
+                transform: scale(1.2);
+                background: none !important;
+            }
+
+            .service:active .service-logo,
+            .service:active .service-logo-bank {
+                transform: scale(1.3);
+                filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));
+            }
+
+            /* Disable some animations on mobile for better performance */
+            .particle,
+            .lens-flare,
+            .hyperdrive-line {
+                display: none;
+            }
+
+            /* Reduce number of visual effects for performance */
+            .lightning,
+            .explosion,
+            .quantum-particle,
+            .meteor,
+            .cosmic-fire {
+                animation-duration: 3s;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            .community-container {
+                width: 70vh;
+                height: 70vh;
+            }
+
+            .community-title {
+                font-size: 1.6rem;
+                top: 10px;
+            }
+        }
+
+        .community-center {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .center-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+            background: transparent;
+            mix-blend-mode: screen;
+            border-radius: 50%;
+            clip-path: circle(50%);
+        }
+
+        .orbit {
+            position: absolute;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .orbit-1 {
+            width: 300px;
+            height: 300px;
+            animation-duration: 15s;
+            transform: perspective(1000px) rotateX(20deg) rotateZ(30deg);
+        }
+
+        .orbit-2 {
+            width: 450px;
+            height: 450px;
+            animation-duration: 25s;
+            animation-direction: reverse;
+            transform: perspective(1000px) rotateX(20deg) rotateZ(-30deg);
+        }
+
+        .orbit-3 {
+            width: 600px;
+            height: 600px;
+            animation-duration: 35s;
+            transform: perspective(1000px) rotateX(20deg) rotateZ(0deg);
+        }
+
+        .service {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+            transition: all 0.3s ease;
+            background: transparent;
+            mix-blend-mode: screen;
+            border-radius: 50%;
+            clip-path: circle(50%);
+        }
+
+        .service-logo-bank {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+            transition: all 0.3s ease;
+            background: transparent;
+            mix-blend-mode: screen;
+        }
+
+        .service:hover .service-logo,
+        .service:hover .service-logo-bank {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));
+        }
+
+        .service:hover {
+            background: none !important;
+        }
+
+        .service-wallet {
+            top: -40px;
+            left: calc(50% - 40px);
+        }
+
+        .service-tech {
+            top: calc(50% - 40px);
+            right: -40px;
+        }
+
+        .service-bank {
+            bottom: -50px;
+            right: calc(25% - 50px);
+            width: 100px;
+            height: 100px;
+        }
+
+        .service-pay {
+            bottom: -40px;
+            left: calc(25% - 40px);
+        }
+
+        .service-chat {
+            top: calc(50% - 40px);
+            left: -40px;
+        }
+
+        .service-swift {
+            top: calc(25% - 40px);
+            right: calc(15% - 40px);
+        }
+
+        .service-net {
+            top: calc(25% - 40px);
+            left: calc(15% - 40px);
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: perspective(1000px) rotateZ(0deg);
+            }
+            to {
+                transform: perspective(1000px) rotateZ(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .service-name {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 8px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.8);
+            white-space: nowrap;
+        }
+
+        .community-title {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(79, 172, 254, 1);
+            }
+        }
+
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) translateX(0px) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Energy Rings */
+        .energy-ring {
+            position: absolute;
+            border: 1px solid rgba(79, 172, 254, 0.3);
+            border-radius: 50%;
+            animation: pulse-ring 4s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                width: 120px;
+                height: 120px;
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                width: 800px;
+                height: 800px;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Comet Trails */
+        .comet-trail {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: trail 3s linear infinite;
+        }
+
+        @keyframes trail {
+            0% {
+                transform: rotate(0deg) translateX(200px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(360deg) translateX(200px) rotate(-360deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* Nebula Effect */
+        .nebula {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, rgba(147, 51, 234, 0.05) 50%, transparent 100%);
+            border-radius: 50%;
+            animation: nebula-rotate 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes nebula-rotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.6;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        /* Logo Self Rotation */
+        .rotating-logo {
+            animation: self-rotate 10s linear infinite;
+        }
+
+        @keyframes self-rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Enhanced Hover Effects */
+        .service:hover {
+            animation: service-glow 0.5s ease-in-out;
+        }
+
+        @keyframes service-glow {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.5) saturate(1.3);
+            }
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .audio-toggle {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        /* Black Hole Effect */
+        .black-hole {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.9) 40%, transparent 60%);
+            border-radius: 50%;
+            animation: black-hole-distort 5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes black-hole-distort {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                filter: blur(0px);
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                filter: blur(2px);
+            }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+            animation: shoot 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(900px) translateY(900px);
+                opacity: 0;
+            }
+        }
+
+        /* Wormhole Portal */
+        .wormhole {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: conic-gradient(from 0deg, #ff006e, #fb5607, #ffbe0b, #8338ec, #3a86ff, #ff006e);
+            border-radius: 50%;
+            animation: wormhole-spin 2s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes wormhole-spin {
+            0% {
+                transform: rotate(0deg) scale(0.5);
+            }
+            100% {
+                transform: rotate(360deg) scale(1.2);
+            }
+        }
+
+        /* Aurora Borealis */
+        .aurora {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(0,255,127,0.1) 20%, 
+                rgba(0,191,255,0.1) 40%, 
+                rgba(138,43,226,0.1) 60%, 
+                transparent 80%);
+            animation: aurora-dance 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @keyframes aurora-dance {
+            0%, 100% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateX(20px) translateY(-10px) rotate(2deg);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translateX(-20px) translateY(10px) rotate(-2deg);
+                opacity: 0.4;
+            }
+        }
+
+        /* Solar Flares */
+        .solar-flare {
+            position: absolute;
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(255,69,0,0.8), transparent);
+            border-radius: 2px;
+            animation: flare 4s ease-in-out infinite;
+            pointer-events: none;
+            transform-origin: left center;
+        }
+
+        @keyframes flare {
+            0%, 100% {
+                transform: scaleX(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scaleX(1) rotate(45deg);
+                opacity: 1;
+            }
+        }
+
+        /* Gravity Waves */
+        .gravity-wave {
+            position: absolute;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: gravity-pulse 6s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gravity-pulse {
+            0% {
+                width: 100px;
+                height: 100px;
+                opacity: 0.8;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                width: 1000px;
+                height: 1000px;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Plasma Effects */
+        .plasma {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(180deg, 
+                rgba(255,20,147,0.8) 0%, 
+                rgba(0,191,255,0.8) 50%, 
+                rgba(50,205,50,0.8) 100%);
+            animation: plasma-flow 3s ease-in-out infinite;
+            pointer-events: none;
+            border-radius: 1px;
+        }
+
+        @keyframes plasma-flow {
+            0%, 100% {
+                transform: scale(1, 0.5) rotate(0deg);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.5, 1.5) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        /* Lens Flare */
+        .lens-flare {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: lens-flare-move 10s linear infinite;
+            pointer-events: none;
+            filter: blur(1px);
+        }
+
+        @keyframes lens-flare-move {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(400px, 200px) scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(800px, 400px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced Service Effects */
+        .service {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .service:hover {
+            animation: service-glow 0.5s ease-in-out, service-float 2s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        @keyframes service-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Dynamic Color Shifting */
+        .community-container {
+            animation: color-shift 20s ease-in-out infinite;
+        }
+
+        @keyframes color-shift {
+            0% {
+                filter: hue-rotate(0deg) saturate(1);
+            }
+            25% {
+                filter: hue-rotate(90deg) saturate(1.2);
+            }
+            50% {
+                filter: hue-rotate(180deg) saturate(1.4);
+            }
+            75% {
+                filter: hue-rotate(270deg) saturate(1.2);
+            }
+            100% {
+                filter: hue-rotate(360deg) saturate(1);
+            }
+        }
+
+        /* Holographic Effect */
+        .holographic {
+            background: linear-gradient(45deg, 
+                rgba(255,0,150,0.1) 0%, 
+                rgba(0,255,255,0.1) 25%, 
+                rgba(255,255,0,0.1) 50%, 
+                rgba(255,0,255,0.1) 75%, 
+                rgba(0,255,0,0.1) 100%);
+            animation: hologram-shift 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hologram-shift {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.05);
+            }
+        }
+
+        /* EXTRA HEBOH EFFECTS */
+
+        /* Lightning Bolts */
+        .lightning {
+            position: absolute;
+            width: 4px;
+            height: 200px;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,1) 0%, 
+                rgba(0,191,255,1) 50%, 
+                rgba(255,255,255,1) 100%);
+            animation: lightning-strike 0.5s ease-in-out infinite;
+            pointer-events: none;
+            filter: blur(1px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        @keyframes lightning-strike {
+            0%, 90% {
+                opacity: 0;
+                transform: scaleY(0) rotate(0deg);
+            }
+            5%, 15% {
+                opacity: 1;
+                transform: scaleY(1) rotate(5deg);
+            }
+            10% {
+                opacity: 0.5;
+                transform: scaleY(0.8) rotate(-5deg);
+            }
+        }
+
+        /* Explosion Effects */
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, 
+                rgba(255,69,0,0.8) 0%, 
+                rgba(255,215,0,0.6) 30%, 
+                rgba(255,0,0,0.4) 60%, 
+                transparent 100%);
+            border-radius: 50%;
+            animation: explode 2s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Shockwave Effects */
+        .shockwave {
+            position: absolute;
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            animation: shockwave-pulse 3s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shockwave-pulse {
+            0% {
+                width: 50px;
+                height: 50px;
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                width: 800px;
+                height: 800px;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Quantum Particles */
+        .quantum-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255,0,255,0.9);
+            border-radius: 50%;
+            animation: quantum-teleport 4s ease-in-out infinite;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255,0,255,0.8);
+        }
+
+        @keyframes quantum-teleport {
+            0%, 100% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: scale(1) rotate(90deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.5) rotate(180deg);
+                opacity: 0.3;
+            }
+            75% {
+                transform: scale(1.5) rotate(270deg);
+                opacity: 1;
+            }
+        }
+
+        /* Vortex Effect */
+        .vortex {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(from 0deg, 
+                transparent, 
+                rgba(138,43,226,0.3), 
+                transparent, 
+                rgba(0,191,255,0.3), 
+                transparent);
+            border-radius: 50%;
+            animation: vortex-spin 3s linear infinite;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        @keyframes vortex-spin {
+            0% {
+                transform: rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Meteor Shower */
+        .meteor {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, 
+                rgba(255,255,255,1) 0%, 
+                rgba(255,165,0,0.8) 50%, 
+                transparent 100%);
+            border-radius: 50%;
+            animation: meteor-fall 3s linear infinite;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(255,165,0,0.8);
+        }
+
+        @keyframes meteor-fall {
+            0% {
+                transform: translateX(-200px) translateY(-200px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(1000px) translateY(1000px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Dimensional Rift */
+        .dimensional-rift {
+            position: absolute;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,0,255,0.8), 
+                rgba(0,255,255,0.8), 
+                transparent);
+            animation: rift-tear 5s ease-in-out infinite;
+            pointer-events: none;
+            filter: blur(1px);
+            box-shadow: 0 0 20px rgba(255,0,255,0.6);
+        }
+
+        @keyframes rift-tear {
+            0%, 100% {
+                transform: scaleX(0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: scaleX(1) rotate(45deg);
+                opacity: 1;
+            }
+            75% {
+                transform: scaleX(1.5) rotate(-45deg);
+                opacity: 0.8;
+            }
+        }
+
+        /* Cosmic Fire */
+        .cosmic-fire {
+            position: absolute;
+            width: 20px;
+            height: 60px;
+            background: linear-gradient(180deg, 
+                rgba(255,0,0,0.8) 0%, 
+                rgba(255,165,0,0.8) 30%, 
+                rgba(255,255,0,0.6) 60%, 
+                transparent 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: cosmic-burn 2s ease-in-out infinite;
+            pointer-events: none;
+            filter: blur(1px);
+        }
+
+        @keyframes cosmic-burn {
+            0%, 100% {
+                transform: scale(0.8) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 1;
+            }
+        }
+
+        /* Hyperdrive Lines */
+        .hyperdrive-line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,1) 50%, 
+                rgba(255,255,255,0) 100%);
+            animation: hyperdrive-zoom 1s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hyperdrive-zoom {
+            0% {
+                transform: scale(1, 0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1, 1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1, 2);
+                opacity: 0;
+            }
+        }
+
+        /* Galactic Storm */
+        .galactic-storm {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, 
+                transparent 0%, 
+                rgba(138,43,226,0.1) 30%, 
+                rgba(255,20,147,0.1) 60%, 
+                transparent 100%);
+            animation: storm-rage 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes storm-rage {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            25% {
+                transform: rotate(90deg) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.8;
+            }
+            75% {
+                transform: rotate(270deg) scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        /* Enhanced Logo with Extreme Effects */
+        .center-logo {
+            animation: logo-supreme 8s ease-in-out infinite;
+        }
+
+        @keyframes logo-supreme {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+                filter: drop-shadow(0 0 20px rgba(255,255,255,0.6)) 
+                        saturate(1) brightness(1);
+            }
+            25% {
+                transform: rotate(90deg) scale(1.2);
+                filter: drop-shadow(0 0 40px rgba(255,0,255,1)) 
+                        saturate(1.5) brightness(1.3);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                filter: drop-shadow(0 0 60px rgba(0,255,255,1)) 
+                        saturate(2) brightness(1.5);
+            }
+            75% {
+                transform: rotate(270deg) scale(1.3);
+                filter: drop-shadow(0 0 80px rgba(255,255,0,1)) 
+                        saturate(1.8) brightness(1.4);
+            }
+        }
+
+        /* Screen Shake Effect */
+        .screen-shake {
+            animation: screen-shake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes screen-shake {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(-2px, 2px);
+            }
+            50% {
+                transform: translate(2px, -2px);
+            }
+            75% {
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        /* Neon Glow Pulse */
+        .neon-pulse {
+            animation: neon-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255,0,255,1),
+                           0 0 60px rgba(0,255,255,0.8),
+                           0 0 90px rgba(255,255,0,0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="community-title">KONG COMMUNITY</div>
+    
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-toggle" id="audioToggle" title="Toggle Sound">🔊</button>
+    </div>
+    
+    <div class="community-container">
+        <!-- Aurora Borealis -->
+        <div class="aurora"></div>
+        
+        <!-- Nebula Effect -->
+        <div class="nebula"></div>
+        
+        <!-- Holographic Layer -->
+        <div class="holographic" style="position: absolute; width: 100%; height: 100%; border-radius: 50%;"></div>
+        
+        <!-- Black Hole -->
+        <div class="black-hole"></div>
+        
+        <!-- Wormhole Portal -->
+        <div class="wormhole"></div>
+        
+        <!-- Stars background -->
+        <div class="stars" id="stars"></div>
+        
+        <!-- Shooting Stars -->
+        <div id="shooting-stars"></div>
+        
+        <!-- Particles -->
+        <div id="particles"></div>
+        
+        <!-- Energy Rings -->
+        <div id="energy-rings"></div>
+        
+        <!-- Gravity Waves -->
+        <div id="gravity-waves"></div>
+        
+        <!-- Comet Trails -->
+        <div id="comet-trails"></div>
+        
+        <!-- Solar Flares -->
+        <div id="solar-flares"></div>
+        
+        <!-- Plasma Effects -->
+        <div id="plasma-effects"></div>
+        
+        <!-- Lens Flares -->
+        <div id="lens-flares"></div>
+        
+        <!-- EXTRA HEBOH EFFECTS -->
+        <!-- Galactic Storm -->
+        <div class="galactic-storm"></div>
+        
+        <!-- Lightning Bolts -->
+        <div id="lightning-bolts"></div>
+        
+        <!-- Explosions -->
+        <div id="explosions"></div>
+        
+        <!-- Shockwaves -->
+        <div id="shockwaves"></div>
+        
+        <!-- Quantum Particles -->
+        <div id="quantum-particles"></div>
+        
+        <!-- Vortex -->
+        <div id="vortex"></div>
+        
+        <!-- Meteor Shower -->
+        <div id="meteor-shower"></div>
+        
+        <!-- Dimensional Rifts -->
+        <div id="dimensional-rifts"></div>
+        
+        <!-- Cosmic Fire -->
+        <div id="cosmic-fire"></div>
+        
+        <!-- Hyperdrive Lines -->
+        <div id="hyperdrive-lines"></div>
+        
+        <!-- Orbits -->
+        <div class="orbit orbit-1 neon-pulse"></div>
+        <div class="orbit orbit-2 neon-pulse"></div>
+        <div class="orbit orbit-3 neon-pulse"></div>
+        
+        <!-- Community Center -->
+        <div class="community-center">
+            <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/younext.png" alt="Kong Community Core" class="center-logo rotating-logo">
+        </div>
+        
+        <!-- Services on orbit 1 -->
+        <div class="orbit orbit-1">
+            <div class="service service-wallet">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kong-wallet.png" alt="KongWALLET" class="service-logo">
+                <div class="service-name">KongWALLET</div>
+            </div>
+            <div class="service service-tech">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongTECH.png" alt="kongTECH" class="service-logo">
+                <div class="service-name">kongTECH</div>
+            </div>
+            <div class="service service-bank">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongbank.png" alt="kongBANK" class="service-logo-bank">
+                <div class="service-name">kongBANK</div>
+            </div>
+        </div>
+        
+        <!-- Services on orbit 2 -->
+        <div class="orbit orbit-2">
+            <div class="service service-pay">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongPAY.png" alt="kongPAY" class="service-logo">
+                <div class="service-name">kongPAY</div>
+            </div>
+            <div class="service service-chat">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongCAT.png" alt="kongCHAT" class="service-logo">
+                <div class="service-name">kongCHAT</div>
+            </div>
+            <div class="service service-ai">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongAI.png" alt="Kong-AI" class="service-logo">
+                <div class="service-name">Kong-AI</div>
+            </div>
+        </div>
+        
+        <!-- Services on orbit 3 -->
+        <div class="orbit orbit-3">
+            <div class="service service-swift">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongSWIFT.png" alt="kongSWIFT" class="service-logo">
+                <div class="service-name">kongSWIFT</div>
+            </div>
+            <div class="service service-net">
+                <img src="https://raw.githubusercontent.com/kongali1720/kongali1720.github.io/main/kongNET.png" alt="kongNET" class="service-logo">
+                <div class="service-name">kongNET</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Audio System
+        class GalaxyAudio {
+            constructor() {
+                this.audioContext = null;
+                this.isPlaying = false;
+                this.oscillators = {};
+                this.gainNodes = {};
+                this.init();
+            }
+
+            async init() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.createAmbientSound();
+                } catch (error) {
+                    console.log('Audio not supported:', error);
+                }
+            }
+
+            createAmbientSound() {
+                if (!this.audioContext) return;
+
+                // Create ambient space sound
+                const oscillator1 = this.audioContext.createOscillator();
+                const oscillator2 = this.audioContext.createOscillator();
+                const gainNode1 = this.audioContext.createGain();
+                const gainNode2 = this.audioContext.createGain();
+
+                oscillator1.type = 'sine';
+                oscillator1.frequency.setValueAtTime(80, this.audioContext.currentTime);
+                oscillator2.type = 'triangle';
+                oscillator2.frequency.setValueAtTime(120, this.audioContext.currentTime);
+
+                gainNode1.gain.setValueAtTime(0.05, this.audioContext.currentTime);
+                gainNode2.gain.setValueAtTime(0.03, this.audioContext.currentTime);
+
+                oscillator1.connect(gainNode1);
+                oscillator2.connect(gainNode2);
+                gainNode1.connect(this.audioContext.destination);
+                gainNode2.connect(this.audioContext.destination);
+
+                this.oscillators.ambient1 = oscillator1;
+                this.oscillators.ambient2 = oscillator2;
+                this.gainNodes.ambient1 = gainNode1;
+                this.gainNodes.ambient2 = gainNode2;
+            }
+
+            playHoverSound(frequency = 440) {
+                if (!this.audioContext || !this.isPlaying) return;
+
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, this.audioContext.currentTime + 0.05);
+                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.3);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 0.3);
+            }
+
+            playClickSound(frequency = 660) {
+                if (!this.audioContext || !this.isPlaying) return;
+
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.15, this.audioContext.currentTime + 0.01);
+                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.2);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 0.2);
+            }
+
+            playPulseSound() {
+                if (!this.audioContext || !this.isPlaying) return;
+
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
+                oscillator.frequency.linearRampToValueAtTime(400, this.audioContext.currentTime + 0.5);
+                
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.08, this.audioContext.currentTime + 0.1);
+                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.5);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 0.5);
+            }
+
+            toggle() {
+                if (!this.audioContext) return;
+
+                if (this.isPlaying) {
+                    this.stop();
+                } else {
+                    this.play();
+                }
+            }
+
+            play() {
+                if (!this.audioContext) return;
+
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+
+                // Start ambient sounds
+                Object.values(this.oscillators).forEach(osc => {
+                    if (osc.start) osc.start();
+                });
+
+                this.isPlaying = true;
+                document.getElementById('audioToggle').textContent = '🔊';
+            }
+
+            stop() {
+                if (!this.audioContext) return;
+
+                // Stop ambient sounds
+                Object.values(this.oscillators).forEach(osc => {
+                    if (osc.stop) osc.stop();
+                });
+
+                this.isPlaying = false;
+                document.getElementById('audioToggle').textContent = '🔇';
+                
+                // Recreate oscillators for next play
+                setTimeout(() => this.createAmbientSound(), 100);
+            }
+        }
+
+        // Initialize audio system
+        const communityAudio = new GalaxyAudio();
+
+        // Create animated stars with mobile optimization
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const isMobile = window.innerWidth < 768;
+            const numStars = isMobile ? 75 : 150; // Fewer stars on mobile for performance
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create floating particles with mobile optimization
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const isMobile = window.innerWidth < 768;
+            const numParticles = isMobile ? 15 : 30; // Fewer particles on mobile
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = '100%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create energy rings
+        function createEnergyRings() {
+            const ringsContainer = document.getElementById('energy-rings');
+            
+            setInterval(() => {
+                const ring = document.createElement('div');
+                ring.className = 'energy-ring';
+                ring.style.left = '50%';
+                ring.style.top = '50%';
+                ringsContainer.appendChild(ring);
+                
+                setTimeout(() => {
+                    ring.remove();
+                }, 4000);
+            }, 2000);
+        }
+
+        // Create comet trails
+        function createCometTrails() {
+            const cometsContainer = document.getElementById('comet-trails');
+            
+            for (let i = 0; i < 5; i++) {
+                const comet = document.createElement('div');
+                comet.className = 'comet-trail';
+                comet.style.left = '50%';
+                comet.style.top = '50%';
+                comet.style.animationDelay = i * 0.6 + 's';
+                cometsContainer.appendChild(comet);
+            }
+        }
+
+        // Create shooting stars
+        function createShootingStars() {
+            const shootingContainer = document.getElementById('shooting-stars');
+            
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                shootingContainer.appendChild(star);
+                
+                setTimeout(() => {
+                    star.remove();
+                }, 3000);
+            }, 4000);
+        }
+
+        // Create gravity waves
+        function createGravityWaves() {
+            const wavesContainer = document.getElementById('gravity-waves');
+            
+            setInterval(() => {
+                const wave = document.createElement('div');
+                wave.className = 'gravity-wave';
+                wave.style.left = '50%';
+                wave.style.top = '50%';
+                wavesContainer.appendChild(wave);
+                
+                setTimeout(() => {
+                    wave.remove();
+                }, 6000);
+            }, 3000);
+        }
+
+        // Create solar flares
+        function createSolarFlares() {
+            const flaresContainer = document.getElementById('solar-flares');
+            
+            for (let i = 0; i < 8; i++) {
+                const flare = document.createElement('div');
+                flare.className = 'solar-flare';
+                flare.style.left = '50%';
+                flare.style.top = '50%';
+                flare.style.transform = `rotate(${i * 45}deg)`;
+                flare.style.animationDelay = i * 0.5 + 's';
+                flaresContainer.appendChild(flare);
+            }
+        }
+
+        // Create plasma effects
+        function createPlasmaEffects() {
+            const plasmaContainer = document.getElementById('plasma-effects');
+            
+            for (let i = 0; i < 12; i++) {
+                const plasma = document.createElement('div');
+                plasma.className = 'plasma';
+                const angle = (i * 30) * Math.PI / 180;
+                const radius = 150;
+                plasma.style.left = `calc(50% + ${Math.cos(angle) * radius}px)`;
+                plasma.style.top = `calc(50% + ${Math.sin(angle) * radius}px)`;
+                plasma.style.animationDelay = i * 0.25 + 's';
+                plasmaContainer.appendChild(plasma);
+            }
+        }
+
+        // Create lens flares
+        function createLensFlares() {
+            const flaresContainer = document.getElementById('lens-flares');
+            
+            for (let i = 0; i < 3; i++) {
+                const flare = document.createElement('div');
+                flare.className = 'lens-flare';
+                flare.style.left = '0%';
+                flare.style.top = '0%';
+                flare.style.animationDelay = i * 3 + 's';
+                flaresContainer.appendChild(flare);
+            }
+        }
+
+        // Enhanced mouse gravitational effect with mobile support
+        function addGravitationalEffect() {
+            const services = document.querySelectorAll('.service');
+            
+            // Mouse/pointer move effect
+            function handlePointerMove(e) {
+                const community = document.querySelector('.community-container');
+                const rect = community.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const deltaX = (e.clientX - centerX) * 0.02;
+                const deltaY = (e.clientY - centerY) * 0.02;
+                
+                community.style.transform = `perspective(1000px) rotateX(${deltaY}deg) rotateY(${deltaX}deg)`;
+                
+                // Gravitational pull effect on services
+                services.forEach(service => {
+                    const serviceRect = service.getBoundingClientRect();
+                    const serviceX = serviceRect.left + serviceRect.width / 2;
+                    const serviceY = serviceRect.top + serviceRect.height / 2;
+                    
+                    const distance = Math.sqrt(Math.pow(e.clientX - serviceX, 2) + Math.pow(e.clientY - serviceY, 2));
+                    const maxDistance = window.innerWidth < 768 ? 100 : 200; // Smaller distance on mobile
+                    
+                    if (distance < maxDistance) {
+                        const pullStrength = (maxDistance - distance) / maxDistance;
+                        const pullX = (e.clientX - serviceX) * pullStrength * (window.innerWidth < 768 ? 0.05 : 0.1);
+                        const pullY = (e.clientY - serviceY) * pullStrength * (window.innerWidth < 768 ? 0.05 : 0.1);
+                        
+                        service.style.transform = `translate(${pullX}px, ${pullY}px) scale(${1 + pullStrength * 0.2})`;
+                    } else {
+                        service.style.transform = '';
+                    }
+                });
+            }
+
+            // Add both mouse and touch events
+            document.addEventListener('mousemove', handlePointerMove);
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 1) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    handlePointerMove({
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                }
+            }, { passive: false });
+
+            // Device orientation effect for mobile
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(e) {
+                    if (window.innerWidth < 768) {
+                        const community = document.querySelector('.community-container');
+                        const tiltX = e.gamma * 0.5; // left-right tilt
+                        const tiltY = e.beta * 0.5;  // front-back tilt
+                        
+                        community.style.transform = `perspective(1000px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+                    }
+                });
+            }
+        }
+
+        // Add click effects to services with mobile support
+        function addServiceEffects() {
+            const services = document.querySelectorAll('.service');
+            services.forEach((service, index) => {
+                // Add hover sound effects (desktop only)
+                if (window.matchMedia('(hover: hover)').matches) {
+                    service.addEventListener('mouseenter', function() {
+                        const frequency = 440 + (index * 100);
+                        communityAudio.playHoverSound(frequency);
+                    });
+                }
+
+                // Add click/tap effects
+                function handleServiceInteraction() {
+                    const logo = this.querySelector('.service-logo, .service-logo-bank');
+                    const frequency = 660 + (index * 150);
+                    communityAudio.playClickSound(frequency);
+
+                    if (logo) {
+                        logo.style.transform = 'scale(1.4)';
+                        logo.style.filter = 'drop-shadow(0 0 30px rgba(255,255,255,1))';
+                        
+                        setTimeout(() => {
+                            logo.style.transform = '';
+                            logo.style.filter = '';
+                        }, 200);
+                    } else {
+                        this.style.transform = 'scale(1.2)';
+                        this.style.boxShadow = '0 0 20px rgba(255,255,255,0.8)';
+                        
+                        setTimeout(() => {
+                            this.style.transform = '';
+                            this.style.boxShadow = '';
+                        }, 200);
+                    }
+
+                    // Add haptic feedback on mobile
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                }
+
+                service.addEventListener('click', handleServiceInteraction);
+                service.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    handleServiceInteraction.call(this);
+                }, { passive: false });
+            });
+        }
+
+        // Initialize all effects after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createParticles();
+            createEnergyRings();
+            createCometTrails();
+            createShootingStars();
+            createGravityWaves();
+            createSolarFlares();
+            createPlasmaEffects();
+            createLensFlares();
+            addServiceEffects();
+            addGravitationalEffect();
+        });
+
+        // Fallback initialization for immediate execution
+        if (document.readyState === 'loading') {
+            // DOM hasn't finished loading yet
+        } else {
+            // DOM has already loaded
+            setTimeout(() => {
+                createStars();
+                createParticles();
+                createEnergyRings();
+                createCometTrails();
+                createShootingStars();
+                createGravityWaves();
+                createSolarFlares();
+                createPlasmaEffects();
+                createLensFlares();
+                addServiceEffects();
+                addGravitationalEffect();
+            }, 100);
+        }
+
+        // Audio controls - wait for DOM
+        setTimeout(() => {
+            const audioToggle = document.getElementById('audioToggle');
+            if (audioToggle) {
+                audioToggle.addEventListener('click', function() {
+                    communityAudio.toggle();
+                });
+            }
+        }, 100);
+
+        // Add pulse sound effect every 4 seconds (matching energy rings)
+        setInterval(() => {
+            communityAudio.playPulseSound();
+        }, 4000);
+
+        // Konami Code Easter Egg
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konamiSequence.length && 
+                konamiCode.every((code, i) => code === konamiSequence[i])) {
+                
+                // Activate secret mode
+                document.body.style.animation = 'rainbow 1s ease-in-out infinite';
+                document.querySelector('.community-title').textContent = 'KONG UNIVERSE ACTIVATED!';
+                document.querySelector('.community-title').style.fontSize = '3rem';
+                
+                // Create rainbow effect
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes rainbow {
+                        0% { filter: hue-rotate(0deg) saturate(2); }
+                        100% { filter: hue-rotate(360deg) saturate(2); }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Show secret message
+                setTimeout(() => {
+                    alert('🎉 KONG UNIVERSE UNLOCKED! 🎉\n\nYou have discovered the secret community mode!');
+                }, 1000);
+            }
+        });
+
+        // UFO Easter Egg
+        function createUFO() {
+            const ufo = document.createElement('div');
+            ufo.style.cssText = `
+                position: absolute;
+                width: 60px;
+                height: 30px;
+                background: linear-gradient(ellipse, #silver 0%, #gray 100%);
+                border-radius: 50%;
+                animation: ufo-fly 15s linear infinite;
+                pointer-events: none;
+                z-index: 1000;
+                box-shadow: 0 0 20px rgba(255,255,255,0.6);
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ufo-fly {
+                    0% { transform: translateX(-100px) translateY(50px); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { transform: translateX(900px) translateY(100px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(ufo);
+            
+            setTimeout(() => {
+                ufo.remove();
+            }, 15000);
+        }
+
+        // Random UFO appearance
+        setInterval(() => {
+            if (Math.random() < 0.1) { // 10% chance every 30 seconds
+                createUFO();
+            }
+        }, 30000);
+
+        // Add breathing effect to community - wait for DOM to be ready
+        setTimeout(() => {
+            const community = document.querySelector('.community-container');
+            if (community) {
+                community.style.animation = 'community-breathe 8s ease-in-out infinite';
+                
+                const breatheStyle = document.createElement('style');
+                breatheStyle.textContent = `
+                    @keyframes community-breathe {
+                        0%, 100% { transform: scale(1); }
+                        50% { transform: scale(1.05); }
+                    }
+                `;
+                document.head.appendChild(breatheStyle);
+            }
+        }, 500);
+    </script>
+</body>
+</html>
