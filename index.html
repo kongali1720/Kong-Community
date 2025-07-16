@@ -1509,16 +1509,35 @@
                 this.isPlaying = false;
                 this.oscillators = {};
                 this.gainNodes = {};
+                this.isMobile = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 this.init();
             }
 
             async init() {
                 try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    this.createAmbientSound();
+                    // Skip complex audio on mobile to prevent visual glitches
+                    if (this.isMobile) {
+                        this.initMobileAudio();
+                    } else {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        this.createAmbientSound();
+                    }
                 } catch (error) {
                     console.log('Audio not supported:', error);
+                    this.initFallbackAudio();
                 }
+            }
+
+            initMobileAudio() {
+                // Use simple HTML5 audio for mobile to prevent conflicts
+                this.mobileAudio = true;
+                console.log('Mobile audio mode activated');
+            }
+
+            initFallbackAudio() {
+                // Fallback for unsupported devices
+                this.fallbackAudio = true;
+                console.log('Fallback audio mode activated');
             }
 
             createAmbientSound() {
@@ -1550,67 +1569,102 @@
             }
 
             playHoverSound(frequency = 440) {
-                if (!this.audioContext || !this.isPlaying) return;
+                if (!this.isPlaying) return;
 
-                const oscillator = this.audioContext.createOscillator();
-                const gainNode = this.audioContext.createGain();
+                // Skip hover sounds on mobile to prevent glitches
+                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
+                    return;
+                }
 
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.1, this.audioContext.currentTime + 0.05);
-                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.3);
+                if (!this.audioContext) return;
 
-                oscillator.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
+                try {
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
 
-                oscillator.start();
-                oscillator.stop(this.audioContext.currentTime + 0.3);
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.05, this.audioContext.currentTime + 0.05); // Reduced volume
+                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.2); // Shorter duration
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(this.audioContext.destination);
+
+                    oscillator.start();
+                    oscillator.stop(this.audioContext.currentTime + 0.2);
+                } catch (error) {
+                    console.log('Audio playback error:', error);
+                }
             }
 
             playClickSound(frequency = 660) {
-                if (!this.audioContext || !this.isPlaying) return;
+                if (!this.isPlaying) return;
 
-                const oscillator = this.audioContext.createOscillator();
-                const gainNode = this.audioContext.createGain();
+                // Use haptic feedback instead of sound on mobile
+                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
+                    // Haptic feedback for mobile
+                    if (navigator.vibrate) {
+                        navigator.vibrate(30);
+                    }
+                    return;
+                }
 
-                oscillator.type = 'square';
-                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.15, this.audioContext.currentTime + 0.01);
-                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.2);
+                if (!this.audioContext) return;
 
-                oscillator.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
+                try {
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
 
-                oscillator.start();
-                oscillator.stop(this.audioContext.currentTime + 0.2);
+                    oscillator.type = 'sine'; // Changed from square to sine for gentler sound
+                    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.08, this.audioContext.currentTime + 0.01); // Reduced volume
+                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.15); // Shorter duration
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(this.audioContext.destination);
+
+                    oscillator.start();
+                    oscillator.stop(this.audioContext.currentTime + 0.15);
+                } catch (error) {
+                    console.log('Audio playback error:', error);
+                }
             }
 
             playPulseSound() {
-                if (!this.audioContext || !this.isPlaying) return;
+                if (!this.isPlaying) return;
 
-                const oscillator = this.audioContext.createOscillator();
-                const gainNode = this.audioContext.createGain();
+                // Skip pulse sounds on mobile entirely
+                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
+                    return;
+                }
 
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
-                oscillator.frequency.linearRampToValueAtTime(400, this.audioContext.currentTime + 0.5);
-                
-                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.08, this.audioContext.currentTime + 0.1);
-                gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.5);
+                if (!this.audioContext) return;
 
-                oscillator.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
+                try {
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
 
-                oscillator.start();
-                oscillator.stop(this.audioContext.currentTime + 0.5);
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
+                    oscillator.frequency.linearRampToValueAtTime(300, this.audioContext.currentTime + 0.3); // Shorter sweep
+                    
+                    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.04, this.audioContext.currentTime + 0.1); // Much quieter
+                    gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 0.3); // Shorter duration
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(this.audioContext.destination);
+
+                    oscillator.start();
+                    oscillator.stop(this.audioContext.currentTime + 0.3);
+                } catch (error) {
+                    console.log('Audio playback error:', error);
+                }
             }
 
             toggle() {
-                if (!this.audioContext) return;
-
                 if (this.isPlaying) {
                     this.stop();
                 } else {
@@ -1619,34 +1673,72 @@
             }
 
             play() {
-                if (!this.audioContext) return;
+                this.isPlaying = true;
+                const toggleBtn = document.getElementById('audioToggle');
+                if (toggleBtn) toggleBtn.textContent = '🔊';
 
-                if (this.audioContext.state === 'suspended') {
-                    this.audioContext.resume();
+                // Different behavior for mobile vs desktop
+                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
+                    // Mobile: Just enable haptic feedback, no audio
+                    console.log('Audio enabled - haptic feedback mode');
+                    return;
                 }
 
-                // Start ambient sounds
-                Object.values(this.oscillators).forEach(osc => {
-                    if (osc.start) osc.start();
-                });
+                if (!this.audioContext) return;
 
-                this.isPlaying = true;
-                document.getElementById('audioToggle').textContent = '🔊';
+                try {
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
+                    // Start ambient sounds only on desktop
+                    Object.values(this.oscillators).forEach(osc => {
+                        if (osc.start && typeof osc.start === 'function') {
+                            try {
+                                osc.start();
+                            } catch (e) {
+                                console.log('Oscillator start error:', e);
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.log('Audio play error:', error);
+                }
             }
 
             stop() {
+                this.isPlaying = false;
+                const toggleBtn = document.getElementById('audioToggle');
+                if (toggleBtn) toggleBtn.textContent = '🔇';
+
+                if (this.isMobile || this.mobileAudio || this.fallbackAudio) {
+                    console.log('Audio disabled - haptic feedback mode off');
+                    return;
+                }
+
                 if (!this.audioContext) return;
 
-                // Stop ambient sounds
-                Object.values(this.oscillators).forEach(osc => {
-                    if (osc.stop) osc.stop();
-                });
+                try {
+                    // Stop ambient sounds
+                    Object.values(this.oscillators).forEach(osc => {
+                        if (osc.stop && typeof osc.stop === 'function') {
+                            try {
+                                osc.stop();
+                            } catch (e) {
+                                console.log('Oscillator stop error:', e);
+                            }
+                        }
+                    });
 
-                this.isPlaying = false;
-                document.getElementById('audioToggle').textContent = '🔇';
-                
-                // Recreate oscillators for next play
-                setTimeout(() => this.createAmbientSound(), 100);
+                    // Recreate oscillators for next play (only on desktop)
+                    setTimeout(() => {
+                        if (!this.isMobile && !this.mobileAudio && !this.fallbackAudio) {
+                            this.createAmbientSound();
+                        }
+                    }, 100);
+                } catch (error) {
+                    console.log('Audio stop error:', error);
+                }
             }
         }
 
@@ -1902,29 +1994,41 @@
                 function handleServiceInteraction() {
                     const logo = this.querySelector('.service-logo, .service-logo-bank');
                     const frequency = 660 + (index * 150);
+                    
+                    // Play sound/haptic based on device
                     communityAudio.playClickSound(frequency);
 
+                    // Safe visual effects that don't cause white boxes
                     if (logo) {
-                        logo.style.transform = 'scale(1.4)';
-                        logo.style.filter = 'drop-shadow(0 0 30px rgba(255,255,255,1))';
+                        // Mobile-safe effects
+                        if (window.innerWidth < 768) {
+                            logo.style.transform = 'scale(1.2)';
+                            logo.style.transition = 'transform 0.2s ease';
+                        } else {
+                            logo.style.transform = 'scale(1.4)';
+                            logo.style.filter = 'drop-shadow(0 0 30px rgba(255,255,255,1))';
+                        }
                         
                         setTimeout(() => {
                             logo.style.transform = '';
-                            logo.style.filter = '';
+                            if (window.innerWidth >= 768) {
+                                logo.style.filter = '';
+                            }
                         }, 200);
                     } else {
-                        this.style.transform = 'scale(1.2)';
-                        this.style.boxShadow = '0 0 20px rgba(255,255,255,0.8)';
+                        if (window.innerWidth < 768) {
+                            this.style.transform = 'scale(1.1)';
+                            this.style.background = 'rgba(255,255,255,0.1)';
+                        } else {
+                            this.style.transform = 'scale(1.2)';
+                            this.style.boxShadow = '0 0 20px rgba(255,255,255,0.8)';
+                        }
                         
                         setTimeout(() => {
                             this.style.transform = '';
+                            this.style.background = '';
                             this.style.boxShadow = '';
                         }, 200);
-                    }
-
-                    // Add haptic feedback on mobile
-                    if (navigator.vibrate) {
-                        navigator.vibrate(50);
                     }
                 }
 
@@ -1981,10 +2085,13 @@
             }
         }, 100);
 
-        // Add pulse sound effect every 4 seconds (matching energy rings)
+        // Add pulse sound effect every 8 seconds (less frequent, desktop only)
         setInterval(() => {
-            communityAudio.playPulseSound();
-        }, 4000);
+            // Only play pulse sounds on desktop
+            if (window.innerWidth >= 768 && !(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+                communityAudio.playPulseSound();
+            }
+        }, 8000);
 
         // Konami Code Easter Egg
         let konamiCode = [];
