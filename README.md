@@ -48,7 +48,7 @@
 | KongaWALLET | ![KongaWALLET](https://img.shields.io/badge/KongaWALLET-Crypto%20Wallet-00FF00?style=for-the-badge&logo=bitcoin&logoColor=white) | Dompet multi-chain untuk manajemen aset digital. Integrasi dengan trading & payment. |
 | KongBANK | ![KongBANK](https://img.shields.io/badge/KongBANK-Banking%20System-00FF00?style=for-the-badge&logo=bank&logoColor=white) | Sistem perbankan digital (rekening, transaksi, laporan). Edukasi finansial. |
 | KongPAY | ![KongPAY](https://img.shields.io/badge/KongPAY-Payment%20Gateway-00FF00?style=for-the-badge&logo=paypal&logoColor=white) | Payment gateway untuk Visa, PayPal, dan metode pembayaran lain. Terintegrasi dengan KongBANK. |
-| KongSWIFT | ![KongSWIFT](https://img.shields.io/badge/KongSWIFT-SWIFT%20Integration-00FF00?style=for-the-badge&logo=swift&logoColor=white) | Modul edukasi sistem pembayaran SWIFT MT103. |
+| KongSWIFT | ![KongSWIFT](https://img.shields.io/badge/KongSWIFT-SWIFT%20Integration-00FF00?style=for-the-badge&logo=swift&logoColor=white) | Sistem pembayaran SWIFT MT103. |
 | KongCRYPTO-TRADING | ![KongCRYPTO-TRADING](https://img.shields.io/badge/KongCRYPTO--TRADING-Auto%20Trading-00FF00?style=for-the-badge&logo=ethereum&logoColor=white) | Platform trading otomatis untuk cryptocurrency & analisis pasar. Terintegrasi dengan KongaWALLET. |
 | KongTECH | ![KongTECH](https://img.shields.io/badge/KongTECH-Research%20%26%20Development-00FF00?style=for-the-badge&logo=raspberry-pi&logoColor=white) | Riset & pengembangan teknologi baru (IoT, Web3, AI). Lab inovasi modul Kong. |
 | YouNEXT | ![YouNEXT](https://img.shields.io/badge/YouNEXT-Future%20Tech-00FF00?style=for-the-badge&logo=ai&logoColor=white) | Proyek lanjutan berbasis AI, Web3, dan teknologi masa depan. Fokus eksperimen inovatif. |
