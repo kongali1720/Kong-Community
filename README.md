@@ -1,5 +1,5 @@
 <h1 align="center">
-  🌐 Ekosistem KONG</h1>
+  🌐 KONGALI FOUNDATION</h1>
 </p>
 
 ---
